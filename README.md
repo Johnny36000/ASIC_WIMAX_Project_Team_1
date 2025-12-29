@@ -37,64 +37,41 @@ This project implements a complete WiMAX (IEEE 802.16-2007) Physical Layer trans
 
 ```mermaid
 flowchart TD
-    subgraph Input[Input Data Block]
-        IN[96 bits Raw Data<br/>0xACBCD2114DAE1577C6DBF4C9]
-    end
+    IN[96 bits Raw Data<br/>0xACBCD2114DAE1577C6DBF4C9]
     
-    subgraph PRBS[PRBS Randomizer @ 50MHz]
-        LFSR[15-bit LFSR<br/>Seed: 0x6E15<br/>Polynomial: x15+x14+1]
-        XOR1[XOR with LFSR output]
-        LFSR --> XOR1
-    end
+    LFSR[15-bit LFSR<br/>Seed: 0x6E15<br/>Polynomial: x15+x14+1]
+    XOR1[PRBS Randomizer<br/>XOR with LFSR output<br/>@ 50MHz]
     
-    subgraph FEC[FEC Encoder @ 50-100MHz]
-        CONV[Tail-Biting<br/>Convolutional Encoder<br/>Rate: 1/2]
-        FIFO[Dual-Clock FIFO<br/>Rate Conversion]
-        CONV --> FIFO
-    end
+    CONV[FEC Encoder<br/>Tail-Biting Convolutional<br/>Rate: 1/2<br/>@ 50-100MHz]
     
-    subgraph INTER[Interleaver @ 100MHz]
-        PINGPONG[Ping-Pong Buffers<br/>Bank A double-arrow Bank B]
-        PERM[Bit Permutation<br/>Ncbps = 192]
-        PINGPONG --> PERM
-    end
+    PINGPONG[Interleaver<br/>Ping-Pong Buffers<br/>Bit Permutation<br/>@ 100MHz]
     
-    subgraph MOD[QPSK Modulator @ 100MHz]
-        PAIR[Bit Pairing<br/>2 bits to 1 symbol]
-        GRAY[Gray Mapping<br/>00,01,10,11]
-        Q15[Q15 Fixed-Point<br/>plus-minus 0.707 = plus-minus 23170]
-        PAIR --> GRAY --> Q15
-    end
+    MOD[QPSK Modulator<br/>Gray Mapping<br/>Q15 Fixed-Point<br/>+/- 0.707 = +/- 23170<br/>@ 100MHz]
     
-    subgraph Output[Complex Output]
-        IQ[96 Complex Symbols<br/>I + jQ components]
-    end
+    IQ[96 Complex Symbols<br/>I + jQ components]
     
     IN --> XOR1
-    XOR1 -->|96 bits randomized<br/>0x558AC4A53A1724E163AC2BF9| CONV
-    CONV -->|192 bits encoded<br/>2833E48D39...| PINGPONG
-    PERM -->|192 bits interleaved<br/>4B047DFA42...| PAIR
-    Q15 -->|I: 16-bit, Q: 16-bit<br/>per symbol| IQ
+    LFSR -.-> XOR1
+    XOR1 -->|96 bits randomized| CONV
+    CONV -->|192 bits encoded| PINGPONG
+    PINGPONG -->|192 bits interleaved| MOD
+    MOD -->|I: 16-bit, Q: 16-bit| IQ
 ```
 
 ### Data Transformation Through Pipeline Stages
 
 ```mermaid
-graph LR
-    subgraph StageView[Data Transformation at Each Stage]
-        direction TB
-        
-        S1[Stage 1: Raw Input<br/>96 bits]
-        S2[Stage 2: Randomized<br/>96 bits<br/>XOR scrambling]
-        S3[Stage 3: FEC Encoded<br/>192 bits<br/>doubled by rate-1/2]
-        S4[Stage 4: Interleaved<br/>192 bits<br/>reordered positions]
-        S5[Stage 5: Modulated<br/>96 symbols<br/>2 bits per symbol]
-        
-        S1 -->|PRBS| S2
-        S2 -->|FEC 1/2| S3
-        S3 -->|Permute| S4
-        S4 -->|QPSK Map| S5
-    end
+flowchart LR
+    S1[Stage 1<br/>Raw Input<br/>96 bits]
+    S2[Stage 2<br/>Randomized<br/>96 bits]
+    S3[Stage 3<br/>FEC Encoded<br/>192 bits]
+    S4[Stage 4<br/>Interleaved<br/>192 bits]
+    S5[Stage 5<br/>Modulated<br/>96 symbols]
+    
+    S1 -->|PRBS<br/>XOR| S2
+    S2 -->|FEC 1/2<br/>Encode| S3
+    S3 -->|Permute<br/>Bits| S4
+    S4 -->|QPSK<br/>Map| S5
 ```
 
 ---
