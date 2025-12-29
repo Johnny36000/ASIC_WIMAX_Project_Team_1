@@ -273,6 +273,9 @@ While this is a coursework project, we welcome:
 
 ---
 
-**License:** Educational/Academic Use  
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 **Year:** 2024-2025  
 **Institution:** American University in Cairo
