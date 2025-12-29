@@ -1,0 +1,49 @@
+#============================================================
+# WiMAX Project Pin Assignments for DE0-CV
+# Top Level Module: fpga_wrapper_simple
+#============================================================
+
+#============================================================
+# CLOCK
+#============================================================
+set_location_assignment PIN_M9 -to CLOCK_50
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50
+
+#============================================================
+# KEYS (Push Buttons)
+#============================================================
+set_location_assignment PIN_U7 -to KEY0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY0
+set_location_assignment PIN_W9 -to KEY1
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to KEY1
+
+#============================================================
+# SWITCHES
+#============================================================
+set_location_assignment PIN_U13 -to SW0
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SW0
+
+#============================================================
+# LEDS
+#============================================================
+set_location_assignment PIN_AA2 -to LEDR[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[0]
+set_location_assignment PIN_AA1 -to LEDR[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[1]
+set_location_assignment PIN_W2 -to LEDR[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[2]
+set_location_assignment PIN_Y3 -to LEDR[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[3]
+set_location_assignment PIN_N2 -to LEDR[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[4]
+set_location_assignment PIN_N1 -to LEDR[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[5]
+set_location_assignment PIN_U2 -to LEDR[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[6]
+set_location_assignment PIN_U1 -to LEDR[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[7]
+set_location_assignment PIN_L2 -to LEDR[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[8]
+set_location_assignment PIN_L1 -to LEDR[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LEDR[9]
+
