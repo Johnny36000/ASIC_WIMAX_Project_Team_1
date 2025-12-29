@@ -21,11 +21,11 @@ Electronics and Communications Engineering Department
 
 ## Evaluation Status
 
-**Passed 3-Stage Evaluation**
+**Passed 3-Phase Evaluation**
 
-- Stage 1: Individual module verification
-- Stage 2: Integrated pipeline testing
-- Stage 3: Hardware demonstration on DE0-CV board
+- Phase 1: Individual module verification
+- Phase 2: Integrated pipeline testing
+- Phase 3: Hardware demonstration on DE0-CV board
 
 ---
 
